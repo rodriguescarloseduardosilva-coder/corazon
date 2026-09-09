@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="Um coração para Laura, desenhado com palavras.">
+  <title>I love you Laura</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100svh; background: #000; color: #ffb6c1; font-family: Arial, sans-serif; display: grid; place-items: center; }
+    main { width: 100%; text-align: center; padding: 20px 12px; }
+    canvas { display: block; width: min(100%, 760px); aspect-ratio: 1; margin: 0 auto; }
+    button { color: #ffb6c1; background: transparent; border: 1px solid #72414a; padding: 12px 22px; border-radius: 24px; font: inherit; font-size: 16px; cursor: pointer; }
+    button:hover { background: #261017; }
+    button:focus-visible { outline: 2px solid #ffb6c1; outline-offset: 5px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    @media (max-height: 650px) and (min-width: 650px) { canvas { width: min(75svh, 760px); } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1 class="sr-only">I love you Laura</h1>
+    <canvas role="img" aria-label="Coração rosa formado pelas palavras I love you Laura">I love you Laura ♥</canvas>
+    <button type="button">Desenhar de novo</button>
+  </main>
+  <script>
+    const canvas = document.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const points = [];
+    for (let scale = 11; scale < 17; scale++) {
+      for (let i = 0; i < 120; i++) {
+        const angle = i * Math.PI * 2 / 120;
+        points.push([
+          16 * Math.sin(angle) ** 3 * scale,
+          (13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle)) * scale
+        ]);
+      }
+    }
+    let frame = 0, drawn = 0, started = null;
+    function drawPoint(index) {
+      const [x, y] = points[index];
+      ctx.fillText('I love you Laura', 380 + x, 350 - y);
+    }
+    function resize() {
+      const ratio = window.devicePixelRatio || 1;
+      const size = Math.max(1, canvas.getBoundingClientRect().width);
+      canvas.width = Math.round(size * ratio);
+      canvas.height = canvas.width;
+      ctx.setTransform(canvas.width / 760, 0, 0, canvas.height / 760, 0, 0);
+      ctx.fillStyle = '#ffb6c1';
+      ctx.font = 'bold 10.7px Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'bottom';
+      for (let i = 0; i < drawn; i++) drawPoint(i);
+    }
+    function animate(now) {
+      if (started === null) started = now;
+      const target = reducedMotion.matches ? points.length : Math.min(points.length, Math.floor((now - started) / 25) + 1);
+      while (drawn < target) drawPoint(drawn++);
+      if (drawn < points.length) frame = requestAnimationFrame(animate);
+    }
+    function restart() {
+      cancelAnimationFrame(frame);
+      drawn = 0;
+      started = null;
+      resize();
+      frame = requestAnimationFrame(animate);
+    }
+    document.querySelector('button').addEventListener('click', restart);
+    window.addEventListener('resize', resize);
+    reducedMotion.addEventListener('change', restart);
+    restart();
+  </script>
+</body>
+</html>

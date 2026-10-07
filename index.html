@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#000000">
-  <meta name="description" content="Um coração para Laura, desenhado com palavras.">
-  <title>I love you Laura</title>
+  <meta name="description" content="Um coração para Fernanda, desenhado com palavras.">
+  <title>I love you Fernanda</title>
   <style>
     * { box-sizing: border-box; }
     body { margin: 0; min-height: 100svh; background: #000; color: #ffb6c1; font-family: Arial, sans-serif; display: grid; place-items: center; }
@@ -21,7 +21,7 @@
 <body>
   <main>
     <h1 class="sr-only">I love you Fernanda</h1>
-    <canvas role="img" aria-label="Coração rosa formado pelas palavras I love you Laura">I love you Laura ♥</canvas>
+    <canvas role="img" aria-label="Coração rosa formado pelas palavras I love you Fernanda">I love you Fernanda ♥</canvas>
     <button type="button">Desenhar de novo</button>
   </main>
   <script>
@@ -41,7 +41,7 @@
     let frame = 0, drawn = 0, started = null;
     function drawPoint(index) {
       const [x, y] = points[index];
-      ctx.fillText('I love you Laura', 380 + x, 350 - y);
+      ctx.fillText('I love you Fernanda', 380 + x, 350 - y);
     }
     function resize() {
       const ratio = window.devicePixelRatio || 1;

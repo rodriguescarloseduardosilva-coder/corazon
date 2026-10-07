@@ -25,6 +25,6 @@ for scale in range(11, 17):
         ) * scale
 
         t.goto(x, y)
-        t.write("I love you Maria Fernanda", align="center", font=("Arial", 8, "bold"))
+        t.write("I love you Fernanda", align="center", font=("Arial", 8, "bold"))
 
 turtle.done()
